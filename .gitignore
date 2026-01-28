@@ -9,7 +9,7 @@ Thumbs.db
 models/*
 !models/.gitkeep
 
-# SillyTavern Data (optional, depending on if you want to track config)
-# Excluding data/content to keep repo clean
-sillytavern/data
-sillytavern/public
+
+# Data directory
+data/*
+!data/**/.gitkeep

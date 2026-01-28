@@ -13,23 +13,31 @@ services:
       - KOBOLD_GPU_LAYERS=${KOBOLD_GPU_LAYERS:--1}
       - KOBOLD_TENSOR_SPLIT=${KOBOLD_TENSOR_SPLIT}
       - KOBOLD_BLAS_BATCH_SIZE=${KOBOLD_BLAS_BATCH_SIZE:-512}
-    command: >
-      --model /models/${MODEL_FILENAME}
-      --contextsize ${KOBOLD_CONTEXT_SIZE:-4096}
-      --gpulayers ${KOBOLD_GPU_LAYERS:--1}
-      --threads ${KOBOLD_THREADS:-8}
-      --blasbatchsize ${KOBOLD_BLAS_BATCH_SIZE:-512}
-      --usecublas lowVRAM
-      --port 5001
-      --host 0.0.0.0
-      --smartcontext
+    command:
+      - --model
+      - /models/${MODEL_FILENAME}
+      - --contextsize
+      - ${KOBOLD_CONTEXT_SIZE:-4096}
+      - --gpulayers
+      - ${KOBOLD_GPU_LAYERS:--1}
+      - --threads
+      - ${KOBOLD_THREADS:-8}
+      - --blasbatchsize
+      - ${KOBOLD_BLAS_BATCH_SIZE:-512}
+      - --usecublas
+      - lowVRAM
+      - --port
+      - "5001"
+      - --host
+      - 0.0.0.0
+      - --smartcontext
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
               count: all
-              capabilities: [gpu]
+              capabilities: [ gpu ]
 
   sillytavern:
     image: ghcr.io/sillytavern/sillytavern:${SILLYTAVERN_VERSION:-latest}
@@ -38,11 +46,11 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./sillytavern/config:/home/node/app/config
-      - ./sillytavern/data:/home/node/app/data
-      - ./sillytavern/plugins:/home/node/app/plugins
-      - ./sillytavern/public/user:/home/node/app/public/user
-      - ./sillytavern/public/assets:/home/node/app/public/assets
-      - ./sillytavern/public/backgrounds:/home/node/app/public/backgrounds
+      - ./data/sillytavern/config:/home/node/app/config
+      - ./data/sillytavern/data:/home/node/app/data
+      - ./data/sillytavern/plugins:/home/node/app/plugins
+      - ./data/sillytavern/public/user:/home/node/app/public/user
+      - ./data/sillytavern/public/assets:/home/node/app/public/assets
+      - ./data/sillytavern/public/backgrounds:/home/node/app/public/backgrounds
     depends_on:
       - koboldcpp
