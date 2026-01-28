@@ -13,7 +13,7 @@ services:
       - KOBOLD_GPU_LAYERS=${KOBOLD_GPU_LAYERS:--1}
       - KOBOLD_TENSOR_SPLIT=${KOBOLD_TENSOR_SPLIT}
       - KOBOLD_BLAS_BATCH_SIZE=${KOBOLD_BLAS_BATCH_SIZE:-512}
-      - KCPP_ARGS=--model /models/${MODEL_FILENAME} --contextsize ${KOBOLD_CONTEXT_SIZE:-4096} --gpulayers ${KOBOLD_GPU_LAYERS:--1} --threads ${KOBOLD_THREADS:-8} --blasbatchsize ${KOBOLD_BLAS_BATCH_SIZE:-512} --usecublas lowVRAM --port 5001 --host 0.0.0.0 --smartcontext
+      - KCPP_ARGS=--model /models/${MODEL_FILENAME} --contextsize ${KOBOLD_CONTEXT_SIZE:-4096} --gpulayers ${KOBOLD_GPU_LAYERS:--1} --threads ${KOBOLD_THREADS:-8} --blasbatchsize ${KOBOLD_BLAS_BATCH_SIZE:-512} --usecublas lowvram --port 5001 --host 0.0.0.0 --smartcontext
     deploy:
       resources:
         reservations:
