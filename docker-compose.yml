@@ -1,10 +1,25 @@
 services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: tailscale
+    hostname: ${TS_HOSTNAME:-llm-uncensored}
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=false
+    volumes:
+      - ./data/tailscale:/var/lib/tailscale
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: unless-stopped
+
   koboldcpp:
     image: koboldai/koboldcpp:${KOBOLD_VERSION:-latest}
     container_name: koboldcpp
     restart: unless-stopped
-    ports:
-      - "5001:5001"
+    network_mode: service:tailscale
     volumes:
       - ./models:/models
     environment:
@@ -26,8 +41,7 @@ services:
     image: ghcr.io/sillytavern/sillytavern:${SILLYTAVERN_VERSION:-latest}
     container_name: sillytavern
     restart: unless-stopped
-    ports:
-      - "8000:8000"
+    network_mode: service:tailscale
     volumes:
       - ./data/sillytavern/config:/home/node/app/config
       - ./data/sillytavern/data:/home/node/app/data
@@ -35,5 +49,3 @@ services:
       - ./data/sillytavern/public/user:/home/node/app/public/user
       - ./data/sillytavern/public/assets:/home/node/app/public/assets
       - ./data/sillytavern/public/backgrounds:/home/node/app/public/backgrounds
-    depends_on:
-      - koboldcpp
