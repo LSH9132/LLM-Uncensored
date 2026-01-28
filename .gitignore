@@ -1,0 +1,15 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment variables (secrets)
+.env
+
+# KoboldCPP Models
+models/*
+!models/.gitkeep
+
+# SillyTavern Data (optional, depending on if you want to track config)
+# Excluding data/content to keep repo clean
+sillytavern/data
+sillytavern/public
