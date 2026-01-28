@@ -1,6 +1,6 @@
 services:
   koboldcpp:
-    image: ghcr.io/lostruins/koboldcpp:${KOBOLD_VERSION:-latest}
+    image: koboldai/koboldcpp:${KOBOLD_VERSION:-latest}
     container_name: koboldcpp
     restart: unless-stopped
     ports:
@@ -14,6 +14,7 @@ services:
       - KOBOLD_TENSOR_SPLIT=${KOBOLD_TENSOR_SPLIT}
       - KOBOLD_BLAS_BATCH_SIZE=${KOBOLD_BLAS_BATCH_SIZE:-512}
     command:
+      - /opt/koboldcpp
       - --model
       - /models/${MODEL_FILENAME}
       - --contextsize
